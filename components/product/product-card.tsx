@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/context/cart-context";
 
 interface ProductCardProps {
   product: Product;
@@ -12,6 +13,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+  const { addItem, openCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]);
   const [isAdded, setIsAdded] = useState(false);
@@ -20,6 +22,9 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
     setIsAdded(true);
     if (onAddToCart) {
       onAddToCart(product, selectedSize);
+    } else {
+      addItem(product, selectedSize);
+      openCart();
     }
     setTimeout(() => setIsAdded(false), 1500);
   };
@@ -50,7 +55,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
         )}
 
         {/* Quick Size Overlay on Hover */}
-        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col gap-2">
+        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/95 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col gap-2">
           <div className="flex justify-center gap-1.5 flex-wrap">
             {product.sizes.map((size) => (
               <button
@@ -102,10 +107,10 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
 
         <div className="flex items-center justify-between pt-1 border-t border-white/5">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-white text-sm">${product.price}</span>
+            <span className="font-bold text-white text-sm">€{product.price}</span>
             {product.originalPrice && (
               <span className="text-xs text-neutral-500 line-through">
-                ${product.originalPrice}
+                €{product.originalPrice}
               </span>
             )}
           </div>

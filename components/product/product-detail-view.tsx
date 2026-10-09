@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/context/cart-context";
 import { ChevronRight, ChevronDown, Truck, ShieldCheck, RefreshCw } from "lucide-react";
 
 interface ProductDetailViewProps {
@@ -12,6 +13,7 @@ interface ProductDetailViewProps {
 }
 
 export function ProductDetailView({ product }: ProductDetailViewProps) {
+  const { addItem, openCart } = useCart();
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0]);
   const [activeImage, setActiveImage] = useState<string>(product.image);
   const [isAdded, setIsAdded] = useState(false);
@@ -23,6 +25,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
 
   const handleAddToCart = () => {
     setIsAdded(true);
+    addItem(product, selectedSize);
+    openCart();
     setTimeout(() => setIsAdded(false), 2000);
   };
 
@@ -103,10 +107,10 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             </h1>
 
             <div className="flex items-center gap-3 pt-1">
-              <span className="text-2xl font-black text-white">${product.price}</span>
+              <span className="text-2xl font-black text-white">€{product.price}</span>
               {product.originalPrice && (
                 <span className="text-base text-neutral-500 line-through">
-                  ${product.originalPrice}
+                  €{product.originalPrice}
                 </span>
               )}
             </div>
@@ -161,9 +165,9 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             <Button
               size="lg"
               onClick={handleAddToCart}
-              className="w-full py-4 text-xs font-black tracking-widest"
+              className="w-full py-4 text-xs font-black tracking-widest uppercase"
             >
-              {isAdded ? "Added To Bag ✓" : `Add to Bag · $${product.price}`}
+              {isAdded ? "Added To Bag ✓" : `Add to Bag · €${product.price}`}
             </Button>
           </div>
 
@@ -171,7 +175,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
           <div className="grid grid-cols-1 gap-2.5 bg-gymshark-dark p-4 rounded-xl border border-white/5 text-xs text-neutral-300">
             <div className="flex items-center gap-3">
               <Truck className="w-4 h-4 text-neutral-400 shrink-0" />
-              <span>Free standard delivery on orders over $75</span>
+              <span>Free standard delivery on orders over €50</span>
             </div>
             <div className="flex items-center gap-3">
               <RefreshCw className="w-4 h-4 text-neutral-400 shrink-0" />
