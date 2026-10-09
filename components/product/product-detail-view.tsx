@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/cart-context";
 import { ChevronRight, ChevronDown, Truck, ShieldCheck, RefreshCw } from "lucide-react";
 
@@ -31,21 +30,21 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-10 bg-white text-black">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs font-semibold text-neutral-400 uppercase tracking-wider">
-        <Link href="/" className="hover:text-white transition-colors">
+      <nav className="flex items-center gap-2 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
+        <Link href="/" className="hover:text-black transition-colors">
           Home
         </Link>
-        <ChevronRight className="w-3.5 h-3.5 text-neutral-600" />
+        <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
         <Link
           href={`/collections/${product.category.toLowerCase().includes("women") ? "women" : "men"}`}
-          className="hover:text-white transition-colors"
+          className="hover:text-black transition-colors"
         >
           {product.category}
         </Link>
-        <ChevronRight className="w-3.5 h-3.5 text-neutral-600" />
-        <span className="text-white truncate max-w-xs">{product.name}</span>
+        <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+        <span className="text-black font-bold truncate max-w-xs">{product.name}</span>
       </nav>
 
       {/* Main 2-Column Product Grid */}
@@ -58,10 +57,10 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
               <button
                 key={idx}
                 onClick={() => setActiveImage(imgUrl)}
-                className={`relative w-20 h-24 rounded-lg overflow-hidden border-2 transition-all ${
+                className={`relative w-20 h-24 rounded-lg overflow-hidden border-2 transition-all bg-[#F5F5F5] ${
                   activeImage === imgUrl
-                    ? "border-white"
-                    : "border-transparent opacity-60 hover:opacity-100"
+                    ? "border-black"
+                    : "border-transparent opacity-70 hover:opacity-100"
                 }`}
               >
                 <Image
@@ -75,7 +74,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
           </div>
 
           {/* Main Hero Shot */}
-          <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 shadow-2xl">
+          <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden bg-[#F5F5F5] border border-neutral-200 shadow-sm">
             <Image
               src={activeImage}
               alt={product.name}
@@ -84,7 +83,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
               className="object-cover"
             />
             {product.badge && (
-              <div className="absolute top-4 left-4 bg-white text-black text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-sm shadow-md">
+              <div className="absolute top-4 left-4 bg-black text-white text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-xs shadow-sm">
                 {product.badge}
               </div>
             )}
@@ -94,22 +93,22 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
         {/* Right: Buy Box & Specs (5 Cols) */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           {/* Header */}
-          <div className="flex flex-col gap-2 border-b border-white/10 pb-6">
-            <div className="flex items-center justify-between text-xs text-neutral-400">
-              <span className="uppercase tracking-wider font-semibold">{product.category}</span>
-              <span className="font-bold text-neutral-300 bg-white/10 px-2 py-0.5 rounded text-[11px]">
+          <div className="flex flex-col gap-2 border-b border-neutral-200 pb-6">
+            <div className="flex items-center justify-between text-xs text-neutral-500">
+              <span className="uppercase tracking-wider font-bold">{product.category}</span>
+              <span className="font-bold text-neutral-700 bg-neutral-100 px-2 py-0.5 rounded text-[11px]">
                 {product.fit}
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-black leading-tight">
               {product.name}
             </h1>
 
             <div className="flex items-center gap-3 pt-1">
-              <span className="text-2xl font-black text-white">€{product.price}</span>
+              <span className="text-2xl font-black text-black">€{product.price}</span>
               {product.originalPrice && (
-                <span className="text-base text-neutral-500 line-through">
+                <span className="text-base text-neutral-400 line-through">
                   €{product.originalPrice}
                 </span>
               )}
@@ -118,14 +117,14 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
 
           {/* Color Indicator */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-neutral-300">
-              Select Color
+            <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
+              Color Selected
             </span>
             <div className="flex items-center gap-2">
               {product.colors.map((color, idx) => (
                 <button
                   key={idx}
-                  className="w-7 h-7 rounded-full border-2 border-white/40 hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-white"
+                  className="w-7 h-7 rounded-full border-2 border-neutral-300 hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-black"
                   style={{ backgroundColor: color }}
                 />
               ))}
@@ -135,10 +134,10 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
           {/* Size Picker */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-neutral-300">
-                Select Size: <span className="text-white font-extrabold">{selectedSize}</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
+                Select Size: <span className="text-black font-extrabold">{selectedSize}</span>
               </span>
-              <button className="text-[11px] font-bold text-neutral-400 underline hover:text-white">
+              <button className="text-[11px] font-bold text-neutral-500 underline hover:text-black">
                 Size Guide
               </button>
             </div>
@@ -150,8 +149,8 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
                   onClick={() => setSelectedSize(size)}
                   className={`py-3 rounded-lg font-bold text-xs transition-all uppercase ${
                     selectedSize === size
-                      ? "bg-white text-black shadow-lg scale-100"
-                      : "bg-gymshark-surface text-neutral-200 hover:bg-neutral-800 border border-white/5"
+                      ? "bg-black text-white shadow-md scale-100"
+                      : "bg-[#F5F5F5] text-neutral-800 hover:bg-neutral-200 border border-neutral-200"
                   }`}
                 >
                   {size}
@@ -162,38 +161,37 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
 
           {/* Action Button */}
           <div className="flex flex-col gap-3 pt-2">
-            <Button
-              size="lg"
+            <button
               onClick={handleAddToCart}
-              className="w-full py-4 text-xs font-black tracking-widest uppercase"
+              className="w-full bg-black text-white hover:bg-neutral-800 py-4 rounded-full text-xs font-black uppercase tracking-widest transition-all shadow-md active:scale-98"
             >
               {isAdded ? "Added To Bag ✓" : `Add to Bag · €${product.price}`}
-            </Button>
+            </button>
           </div>
 
           {/* Trust Guarantees */}
-          <div className="grid grid-cols-1 gap-2.5 bg-gymshark-dark p-4 rounded-xl border border-white/5 text-xs text-neutral-300">
+          <div className="grid grid-cols-1 gap-2.5 bg-[#F9F9F9] p-4 rounded-xl border border-neutral-200 text-xs text-neutral-700">
             <div className="flex items-center gap-3">
-              <Truck className="w-4 h-4 text-neutral-400 shrink-0" />
+              <Truck className="w-4 h-4 text-gymshark-teal shrink-0" />
               <span>Free standard delivery on orders over €50</span>
             </div>
             <div className="flex items-center gap-3">
-              <RefreshCw className="w-4 h-4 text-neutral-400 shrink-0" />
+              <RefreshCw className="w-4 h-4 text-neutral-600 shrink-0" />
               <span>Free 30-day online returns</span>
             </div>
             <div className="flex items-center gap-3">
-              <ShieldCheck className="w-4 h-4 text-neutral-400 shrink-0" />
+              <ShieldCheck className="w-4 h-4 text-neutral-600 shrink-0" />
               <span>100% Secure Checkout powered by Vercel Edge</span>
             </div>
           </div>
 
           {/* Collapsible Accordions */}
-          <div className="flex flex-col border-t border-white/10 divide-y divide-white/10 text-xs">
+          <div className="flex flex-col border-t border-neutral-200 divide-y divide-neutral-200 text-xs">
             {/* Description Accordion */}
             <div>
               <button
                 onClick={() => toggleAccordion("description")}
-                className="w-full py-4 flex items-center justify-between font-bold uppercase tracking-wider text-white hover:text-neutral-300 text-left"
+                className="w-full py-4 flex items-center justify-between font-bold uppercase tracking-wider text-black hover:text-neutral-700 text-left"
               >
                 <span>Description & Fit</span>
                 <ChevronDown
@@ -203,13 +201,13 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
                 />
               </button>
               {openAccordion === "description" && (
-                <div className="pb-4 text-neutral-400 leading-relaxed flex flex-col gap-2">
+                <div className="pb-4 text-neutral-600 leading-relaxed flex flex-col gap-2">
                   <p>
                     Engineered with proprietary seamless knit technology to reduce chafing during
                     high-volume conditioning sessions. Sweat-wicking yarns keep you cool through
                     every set.
                   </p>
-                  <ul className="list-disc list-inside space-y-1 text-neutral-300">
+                  <ul className="list-disc list-inside space-y-1 text-neutral-700">
                     <li>{product.fit} silhouette tailored for active movement</li>
                     <li>Reinforced ribbing around cuffs and collar</li>
                     <li>Screen-printed Gymshark shark fin branding</li>
@@ -222,7 +220,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             <div>
               <button
                 onClick={() => toggleAccordion("materials")}
-                className="w-full py-4 flex items-center justify-between font-bold uppercase tracking-wider text-white hover:text-neutral-300 text-left"
+                className="w-full py-4 flex items-center justify-between font-bold uppercase tracking-wider text-black hover:text-neutral-700 text-left"
               >
                 <span>Materials & Care</span>
                 <ChevronDown
@@ -232,7 +230,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
                 />
               </button>
               {openAccordion === "materials" && (
-                <div className="pb-4 text-neutral-400 leading-relaxed flex flex-col gap-2">
+                <div className="pb-4 text-neutral-600 leading-relaxed flex flex-col gap-2">
                   <p>88% Nylon, 12% Elastane.</p>
                   <p>Machine wash cold with similar colors. Do not bleach or iron prints.</p>
                 </div>
